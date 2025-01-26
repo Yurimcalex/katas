@@ -1,7 +1,6 @@
-const towersList = makeTowersList(1, 4);
 document.body.innerHTML = `<pre>${(function () {
 	let str = '';
-	const list = makeTowersList(1, 4);
+	const list = makeLookupList(1, 4);
 	for (let count in list) {
 		str += `${count}:\n`
 		str += '-------\n';
@@ -12,12 +11,13 @@ document.body.innerHTML = `<pre>${(function () {
 })()}</pre>`;
 
 
+
 // make list of number of towers
-function makeTowersList(n, m) {
+function makeLookupList(n, m) {
 	const list = {};
 	const variants = generateArrays(n, m);
 	variants.forEach(arr => {
-		const count = calcTowers(arr);
+		const count = [calcTowers(arr), calcTowers([...arr].reverse())];
 		if (list[count]) {
 			list[count].push(arr);
 		} else {
