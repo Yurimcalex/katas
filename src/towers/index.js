@@ -11,13 +11,27 @@ document.body.innerHTML = `<pre>${(function () {
 })()}</pre>`;
 
 
+// cell entity of towers table
+class Cell {
+	constructor(lc, rc, tc, bc, row, col, variants) {
+		this.lc = lc; // towers count from the left
+		this.rc = rc; //              from the right
+		this.tc = tc; //                       top
+		this.bc = bc; //                       bottom
+		this.row = row; // other cell indices in a row
+		this.col = col; // other cell indices in a column
+		this.variants = variants;
+		this.result = null;
+	}
+}
+
 
 // make list of number of towers
 function makeLookupList(n, m) {
 	const list = {};
 	const variants = generateArrays(n, m);
 	variants.forEach(arr => {
-		const count = [calcTowers(arr), calcTowers([...arr].reverse())];
+		const count = [calcTowers(arr), calcTowers([...arr].reverse())].join('');
 		if (list[count]) {
 			list[count].push(arr);
 		} else {
