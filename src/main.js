@@ -1,3 +1,2 @@
 import './style.css'
-
-console.log('OK');
+import {} from './towers/index.js';
