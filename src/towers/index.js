@@ -1,7 +1,31 @@
-const variants = generateArrays(1, 4);
-document.body.innerHTML = variants.join('<br/>');
-console.log(calcTowers([2, 3, 1, 4]));
+const towersList = makeTowersList(1, 4);
+document.body.innerHTML = `<pre>${(function () {
+	let str = '';
+	const list = makeTowersList(1, 4);
+	for (let count in list) {
+		str += `${count}:\n`
+		str += '-------\n';
+		str += list[count].join('\n');
+		str += '\n\n';
+	}
+	return str;
+})()}</pre>`;
 
+
+// make list of number of towers
+function makeTowersList(n, m) {
+	const list = {};
+	const variants = generateArrays(n, m);
+	variants.forEach(arr => {
+		const count = calcTowers(arr);
+		if (list[count]) {
+			list[count].push(arr);
+		} else {
+			list[count] = [arr];
+		}
+	});
+	return list;
+}
 
 // calculate visible towers count
 function calcTowers(arr) {
