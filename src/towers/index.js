@@ -1,4 +1,23 @@
-// Generates all possible arrays of combinations of n, m numbers, each of length m
+const variants = generateArrays(1, 4);
+document.body.innerHTML = variants.join('<br/>');
+console.log(calcTowers([2, 3, 1, 4]));
+
+
+// calculate visible towers count
+function calcTowers(arr) {
+	let count = 0;
+	let max = 0;
+	for (let t of arr) {
+		if (t - max > 0) {
+			count += 1;
+			max = t;
+		}
+	}
+	return count;
+}
+
+
+// generate all possible arrays of combinations of n, m numbers, each of length m
 function generateArrays(n, m) {
 	const list = [];
 	const startArr = [];
@@ -20,7 +39,3 @@ function generateArrays(n, m) {
 
 	return list;
 }
-
-
-const variants = generateArrays(1, 4);
-document.body.innerHTML = variants.join('<br/>');
