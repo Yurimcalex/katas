@@ -1,79 +1,61 @@
-document.body.innerHTML = `<pre>${(function () {
-	let str = '';
-	const list = makeLookupList(1, 4);
-	for (let count in list) {
-		str += `${count}:\n`
-		str += '-------\n';
-		str += list[count].join('\n');
-		str += '\n\n';
+import LookupTable from './lookupTable.js';
+import PuzzleResult from './puzzleResult.js';
+import PuzzleCell from './puzzleCell.js';
+
+class Puzzle {
+	constructor(n, clues) {
+  	this.result = new PuzzleResult(n);
+  	this.lookupTable = new LookupTable(n);
+  	this.cells = [];
+  	this.couner = n * n;
+  	this.solvedCells = [];
+  	this.init(n, clues);
 	}
-	return str;
-})()}</pre>`;
 
-
-// cell entity of towers table
-class Cell {
-	constructor(lc, rc, tc, bc, row, col, variants) {
-		this.lc = lc; // towers count from the left
-		this.rc = rc; //              from the right
-		this.tc = tc; //                       top
-		this.bc = bc; //                       bottom
-		this.row = row; // other cell indices in a row
-		this.col = col; // other cell indices in a column
-		this.variants = variants;
-		this.result = null;
-	}
-}
-
-
-// make list of number of towers
-function makeLookupList(n, m) {
-	const list = {};
-	const variants = generateArrays(n, m);
-	variants.forEach(arr => {
-		const count = [calcTowers(arr), calcTowers([...arr].reverse())].join('');
-		if (list[count]) {
-			list[count].push(arr);
-		} else {
-			list[count] = [arr];
+	getInitialCellVariants(n) {
+		const result = [];
+		for (let i = 0; i < n; i += 1) {
+			result.push(i + 1);
 		}
-	});
-	return list;
-}
+		return result;
+	}
 
-// calculate visible towers count
-function calcTowers(arr) {
-	let count = 0;
-	let max = 0;
-	for (let t of arr) {
-		if (t - max > 0) {
-			count += 1;
-			max = t;
+	init(n, clues) {
+		let r = 0, c = 0;
+		for (let i = 0; i < clues.length; i += 1) {
+			const cell = new PuzzleCell(
+				clues[n * n - 1 - r],
+				clues[n + r],
+				clues[c],
+				clues[n * (n - 1) - 1 - c],
+				r,
+				c,
+				this.getInitialCellVariants(n)
+			);
+			this.cells.push(cell);
+			c += 1;
+			if (c === n) {
+				c = 0;
+				r += 1;
+			}
 		}
 	}
-	return count;
 }
 
 
-// generate all possible arrays of combinations of n, m numbers, each of length m
-function generateArrays(n, m) {
-	const list = [];
-	const startArr = [];
+const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
+const puzzle = new Puzzle(4, clues);
+console.log(puzzle);
 
-	for (let i = n; i <= m; i += 1) startArr.push(i);
 
-	function generate(item, arr) {
-		if (!arr.length) list.push(item);
-		for (let i = 0; i < arr.length; i += 1) {
-			const nextItem = [...item];
-			const nextArr = [...arr];
-			nextItem.push(arr[i]);
-			nextArr.splice(i, 1);
-			generate(nextItem, nextArr);
-		}
-	}
-	
-	generate([], startArr);
+// const table = new LookupTable(1, 4);
+// const variants = table.findVariants('00', 0, [0, 0, 0, 0]);
+// console.log(variants);
 
-	return list;
-}
+// const result = new PuzzleResult(1, 4);
+// result.setValue(1, 1, 4);
+// console.log(result);
+
+// const cell = new PuzzleCell(0, 0, 0, 0, 0, 0, [1, 2, 3, 4]);
+// cell.exclude([3, 4]);
+// console.log(cell);
