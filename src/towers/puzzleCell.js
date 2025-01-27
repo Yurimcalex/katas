@@ -10,6 +10,7 @@ export default class PuzzleCell {
 	}
 
 	exclude(variants) {
+		if (!variants.length) return;
 		this.variants = this.variants.map(v => variants.includes(v) ? v : 0)
 	}
 }
