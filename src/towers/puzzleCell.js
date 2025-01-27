@@ -9,8 +9,17 @@ export default class PuzzleCell {
 		this.result = null;
 	}
 
-	exclude(variants) {
+	check(variants) {
+		const result = variants.filter(v => !!v);
+		if (result.length === 1) return result[0];
+		return 0;
+	}
+
+	calc(variants) {
 		if (!variants.length) return;
-		this.variants = this.variants.map(v => variants.includes(v) ? v : 0)
+		const newVariants = this.variants.map(v => variants.includes(v) ? v : 0);
+		const result = this.check(newVariants);
+		if (result) this.result = result;
+		this.variants = newVariants;
 	}
 }
