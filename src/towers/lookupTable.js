@@ -45,12 +45,18 @@ export default class LookupTable {
 	}
 
 	filterItems(items, template) {
-		return items.filter(item => {
+		if (!template.reduce((acc, v) => acc + v, 0)) return items;
+		const result = [];
+		items.forEach(item => {
 			for (let i = 0; i < template.length; i += 1) {
 				if (!template[i]) continue;
-				if (template[i] === item[i]) return item;
+				if (template[i] === item[i]) {
+					result.push(item);
+					break;
+				}
 			}
 		});
+		return result;
 	}
 
 	findVariants(key, ind, template) {
