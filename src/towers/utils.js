@@ -32,7 +32,6 @@ export function calcVisibleTops(arr) {
 
 
 export function sumArraysValues(arrs) {
-	document.body.innerHTML += '<div><code>' + JSON.stringify(arrs) + '</code></div>';
 	let result = [...arrs[0]];
 	arrs.shift();
 	for (let arr of arrs) {

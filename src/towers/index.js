@@ -43,7 +43,7 @@ class Puzzle {
 	excludeCellPossibleValue(cell) {
 		const adjacentCells = this.getAdjacentCells(cell);
 		for (let c of adjacentCells) {
-			c.possibleValues[cell.result - 1] = 0;
+			c.excludeV(cell.result - 1);
 		}
 	}
 
@@ -87,10 +87,10 @@ class Puzzle {
 }
 
 console.time('start');
-//for (let i = 0; i < 1000; i += 1) {
+for (let i = 0; i < 1000; i += 1) {
 	const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
 	const puzzle = new Puzzle(4, clues);
 	puzzle.solve();
-//}
+}
 console.timeEnd('start');
-puzzle.result.table.forEach(line => console.log(line));
+//puzzle.result.table.forEach(line => console.log(line));
