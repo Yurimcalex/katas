@@ -1,3 +1,5 @@
+import { getRange } from './utils.js';
+ 
 export default class PuzzleCell {
 	constructor(rowLeftTops, rowRightTops, colLeftTops, colRightTops, rowIndex, colIndex, lineSize) {
 		this.name = `${rowIndex}${colIndex}`;
@@ -5,16 +7,8 @@ export default class PuzzleCell {
 		this.c = colIndex;
 		this.rowKey = `${rowLeftTops}${rowRightTops}`;
 		this.colKey = `${colLeftTops}${colRightTops}`;
-		this.possibleValues = this.getInitialValues(lineSize);
+		this.possibleValues = getRange(lineSize);
 		this.result = null;
-	}
-
-	getInitialValues(n) {
-		const result = [];
-		for (let i = 0; i < n; i += 1) {
-			result.push(i + 1);
-		}
-		return result;
 	}
 
 	excludeValues(updatedValues) {

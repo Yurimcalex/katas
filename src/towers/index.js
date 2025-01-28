@@ -92,4 +92,5 @@ const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
 const puzzle = new Puzzle(4, clues);
 puzzle.solve();
 console.timeEnd('start');
-puzzle.result.table.forEach(line => console.log(line));
+
+//puzzle.result.table.forEach(line => console.log(line));

@@ -41,3 +41,12 @@ export function sumArraysValues(arrs) {
 	}
 	return result;
 }
+
+
+export function getRange(n) {
+	const result = [];
+	for (let i = 0; i < n; i += 1) {
+		result.push(i + 1);
+	}
+	return result;
+}
