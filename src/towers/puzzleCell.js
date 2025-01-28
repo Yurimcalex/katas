@@ -7,11 +7,14 @@ export default class PuzzleCell {
 		this.c = colIndex;
 		this.rowKey = `${rowLeftTops}${rowRightTops}`;
 		this.colKey = `${colLeftTops}${colRightTops}`;
+		this.lineSize = lineSize;
 		this.possibleValues = getRange(lineSize);
+		this.active = false;
 		this.result = null;
 	}
 
 	excludeValues(updatedValues) {
+		if (updatedValues.length === this.lineSize) return;
 		this.possibleValues = this.possibleValues.map(v => updatedValues.includes(v) ? v : 0);
 	}
 
@@ -23,6 +26,7 @@ export default class PuzzleCell {
 	calc(updatedValues) {
 		if (!updatedValues.length) return;
 		this.excludeValues(updatedValues);
-		this.calculateResult();		
+		this.calculateResult();
+		this.active = true;		
 	}
 }
