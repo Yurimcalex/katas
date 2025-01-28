@@ -25,11 +25,15 @@ export default class LookupTable {
 
 	getListItemsByKey(key) {
 		const items = [];
-		for (let item in this.list) {
-			if ( (key[0] === '0' && item[1] === key[1]) ||
-					(key[1] === '0' && item[0] === key[0]) ||
-					 key === item ) {
-				items.push(...this.list[item]);
+		if (key in this.list) return this.list[key];
+		else if (key[0] === '0') {
+			for (let item in this.list) {
+				if (item[1] === key[1]) items.push(...this.list[item]);
+			}
+		}
+		else if (key[1] === '0') {
+			for (let item in this.list) {
+				if (item[0] === key[0]) items.push(...this.list[item]);
 			}
 		}
 		return items;
@@ -40,7 +44,6 @@ export default class LookupTable {
 		const result = [];
 		items.forEach(item => {
 			for (let i = 0; i < template.length; i += 1) {
-				if (!template[i]) continue;
 				if (template[i] === item[i]) {
 					result.push(item);
 					break;
@@ -62,11 +65,3 @@ export default class LookupTable {
 		return Array.from(new Set(values));
 	}
 }
-
-
-// const table = new LookupTable(4);
-// console.time('time 1');
-// for (let i = 0; i < 10000; i += 1) {
-// 	table.findPossibleValues('00', 1, [4, 0, 0, 0])
-// }
-// console.timeEnd('time 1');

@@ -50,10 +50,10 @@ class Puzzle {
 
 	getOnlyPossibleValue(cell) {
 		const rowValues = this.getLineCells(cell, 'r').map(c => c.possibleValues);
-		const colValues = this.getLineCells(cell, 'c').map(c => c.possibleValues);
 		const rowInd = sumArraysValues(rowValues).findIndex(v => v === 0);
-		const colInd = sumArraysValues(colValues).findIndex(v => v === 0);
 		if (rowInd !== -1) return cell.possibleValues[rowInd];
+		const colValues = this.getLineCells(cell, 'c').map(c => c.possibleValues);
+		const colInd = sumArraysValues(colValues).findIndex(v => v === 0);
 		if (colInd !== -1) return cell.possibleValues[colInd];
 	}
 
@@ -88,9 +88,11 @@ class Puzzle {
 }
 
 console.time('start');
-const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
-const puzzle = new Puzzle(4, clues);
-puzzle.solve();
-console.timeEnd('start');
+//for (let i = 0; i < 1000; i += 1) {
+	const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
+	const puzzle = new Puzzle(4, clues);
+	puzzle.solve();
+//}
 
-//puzzle.result.table.forEach(line => console.log(line));
+console.timeEnd('start');
+puzzle.result.table.forEach(line => console.log(line));
