@@ -103,13 +103,12 @@ class Puzzle {
 	}
 }
 
-
+console.time('start');
 const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
 const puzzle = new Puzzle(4, clues);
 puzzle.solve();
-
 puzzle.result.table.forEach(line => console.log(line));
-
+console.timeEnd('start');
 
 // const table = new LookupTable(4);
 // const variants = table.findVariants('00', 2, [0, 0, 0, 0]);
