@@ -10,6 +10,9 @@ export default class Puzzle {
   	this.lookupTable = new LookupTable(size);
   	this.cells = [];
   	this.init(size, clues);
+
+  	this.iterationKey = null;
+  	this.loopCount = 0;
 	}
 
 	init(size, clues) {
@@ -87,6 +90,17 @@ export default class Puzzle {
 		}
 	}
 
+	countIdenticalLoops() {
+		const iterationKey = cellsDataToStr(this.cells);
+		if (iterationKey === this.iterationKey) {
+			this.loopCount += 1;
+		} else {
+			this.loopCount = 0;
+		}
+		this.iterationKey = iterationKey;
+	}
+
+
 	solve() {
 		let counter = 0;
 		while (this.cells.length) {
@@ -94,12 +108,35 @@ export default class Puzzle {
 
 			for (let i = 0; i < this.cells.length; i += 1) {
 				this.iterate(this.cells[i], i);
+
+				if (i === this.cells.length - 1) {
+					if (this.loopCount > 0) {
+						console.log('There are no more solutions - INFINITE LOOP!');
+					}
+				}
 			}
 
-			if (counter >= 1000) {
-				console.log('INFINITE LOOP!');
+			if (counter >= 10) {
+				console.log('INFINITE LOOP!', counter);
 				return;
 			}
+
+			this.countIdenticalLoops();
 		}
 	}
+}
+
+
+function cellsDataToStr(cells) {
+	let result = '';
+	const values = [];
+	for (let c of cells) {
+		result += c.name;
+		values.push(c.possibleValues);
+	}
+	if (values.length) {
+		result += sumArraysValues(values).join('');
+	}
+
+	return result;
 }

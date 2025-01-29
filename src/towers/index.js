@@ -14,6 +14,7 @@ function test_size4_number1_times1() {
 	const puzzle = new Puzzle(4, clues);
 	puzzle.solve();
 	puzzle.result.table.forEach(line => console.log(line));
+	console.log(puzzle);
 }
 
 
@@ -45,6 +46,7 @@ function test_size4_number11_times1() {
 		puzzle.solve();
 		puzzle.result.table.forEach(line => console.log(line));
 		console.log(JSON.stringify(d));
+		console.log(puzzle);
 		console.log('-------------------------------------------------');
 	}
 }
@@ -69,8 +71,6 @@ function displayData(description, data) {
 		</div>
 	`;
 }
-
-
 
 
 
