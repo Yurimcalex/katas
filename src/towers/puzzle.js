@@ -130,7 +130,7 @@ export default class Puzzle {
 				}
 			}
 
-			if (counter >= 10) {
+			if (counter >= 100) {
 				console.log('INFINITE LOOP!', counter);
 				return;
 			}

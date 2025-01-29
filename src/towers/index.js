@@ -2,10 +2,11 @@ import Puzzle from './puzzle.js';
 
 
 console.time('start');
-test_size4_number1_times1();
+//test_size4_number1_times1();
 //test_size4_number1_times1000();
 //test_size4_number11_times1();
 //test_size4_number1_times1_multiple();
+test_size6_number1_times1();
 console.timeEnd('start');
 
 
@@ -63,6 +64,16 @@ function test_size4_number1_times1_multiple() {
 }
 
 
+function test_size6_number1_times1() {
+	const d = [0, 0, 0 , 2, 2, 0, 0, 0, 0, 6, 3, 0, 0, 4, 0, 0, 0, 0, 4, 4, 0, 3, 0, 0];
+	const puzzle = new Puzzle(6, d);
+	puzzle.solve();
+	puzzle.result.table.forEach(line => console.log(line));
+	console.log(puzzle)
+	//puzzle.cells.forEach(c => console.log(c.name, JSON.stringify(c.possibleValues)));
+}
+
+
 function displayData(description, data) {
 	document.body.innerHTML += `
 		<div>
@@ -71,12 +82,3 @@ function displayData(description, data) {
 		</div>
 	`;
 }
-
-
-
-// const d = [0, 0, 0 , 2, 2, 0, 0, 0, 0, 6, 3, 0, 0, 4, 0, 0, 0, 0, 4, 4, 0, 3, 0, 0];
-// const puzzle = new Puzzle(6, d);
-// puzzle.solve();
-// puzzle.result.table.forEach(line => console.log(line));
-// console.log(puzzle);
-// puzzle.cells.forEach(c => console.log(c.name, JSON.stringify(c.possibleValues)));
