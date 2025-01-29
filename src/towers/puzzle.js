@@ -90,6 +90,19 @@ export default class Puzzle {
 		}
 	}
 
+	iterateFurther() {
+		for (let i = 0; i < this.cells.length; i += 1) {
+			const cell = this.cells[i];
+			const nonZeroValues = cell.possibleValues.filter(c => !!c);
+			if (nonZeroValues.length) {
+				cell.result = nonZeroValues[0];
+				this.resolveCell(cell, i);
+				this.excludePossibleValueFromAdjacentCells(cell);
+				break;
+			}
+		}
+	}
+
 	countIdenticalLoops() {
 		const iterationKey = cellsDataToStr(this.cells);
 		if (iterationKey === this.iterationKey) {
@@ -111,7 +124,8 @@ export default class Puzzle {
 
 				if (i === this.cells.length - 1) {
 					if (this.loopCount > 0) {
-						console.log('There are no more solutions - INFINITE LOOP!');
+						// There are no more solutions - INFINITE LOOP!
+						this.iterateFurther();
 					}
 				}
 			}
