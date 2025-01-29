@@ -2,10 +2,10 @@ import Puzzle from './puzzle.js';
 
 
 console.time('start');
-//test_size4_number1_times1();
+test_size4_number1_times1();
 //test_size4_number1_times1000();
 //test_size4_number11_times1();
-test_size4_number1_times1_multiple()
+//test_size4_number1_times1_multiple()
 console.timeEnd('start');
 
 

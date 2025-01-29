@@ -48,13 +48,10 @@ export default class Puzzle {
 		}
 	}
 
-	getOnlyPossibleValue(cell) {
-		const rowValues = this.getLineCells(cell, 'r').map(c => c.possibleValues);
-		const rowInd = sumArraysValues(rowValues).findIndex(v => v === 0);
-		if (rowInd !== -1) return cell.possibleValues[rowInd];
-		const colValues = this.getLineCells(cell, 'c').map(c => c.possibleValues);
-		const colInd = sumArraysValues(colValues).findIndex(v => v === 0);
-		if (colInd !== -1) return cell.possibleValues[colInd];
+	calcCellValueFromLineCells(cell, line) {
+		const values = this.getLineCells(cell, line).map(c => c.possibleValues);
+		const zeroInd = sumArraysValues(values).findIndex(v => v === 0);
+		return zeroInd !== -1 ? cell.possibleValues[zeroInd] : null;  
 	}
 
 	solve() {
@@ -76,9 +73,11 @@ export default class Puzzle {
 					this.excludeCellPossibleValue(cell);
 
 				} else {
-					const result = this.getOnlyPossibleValue(cell);
-					if (result) {
-						cell.result = result;
+					let value = this.calcCellValueFromLineCells(cell, 'r');
+					if (!value) value = this.calcCellValueFromLineCells(cell, 'c');
+
+					if (value) {
+						cell.result = value;
 						this.result.setValue(r, c, cell.result);
 						this.cells.splice(i, 1);
 						this.excludeCellPossibleValue(cell);
