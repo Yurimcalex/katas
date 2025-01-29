@@ -19,6 +19,10 @@ export default class PuzzleResult {
 		return result;
 	}
 
+	getLine(ind, line) {
+		return line === 'r' ? this.getRow(ind) : this.getCol(ind);
+	}
+
 	create(n) {
 		const table = [];
 		for (let i = 0; i < n; i += 1) {

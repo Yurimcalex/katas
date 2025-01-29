@@ -49,12 +49,18 @@ export default class Puzzle {
 	}
 
 	calcCellValueFromLineCells(cell, line) {
-		const values = this.getLineCells(cell, line).map(c => c.possibleValues);
-		const zeroInd = sumArraysValues(values).findIndex(v => v === 0);
+		const values = this.getLineCells(cell, line)
+			.map(c => c.possibleValues);
+		const zeroInd = sumArraysValues(values)
+			.findIndex(v => v === 0);
 		return zeroInd !== -1 ? cell.possibleValues[zeroInd] : null;  
 	}
 
-	getNext
+	getNextCellValues(key, ind, line) {
+		const template = line === 'r' ? this.result.getRow(ind) : this.result.getCol(ind);
+		return this.lookupTable.findPossibleValues(key, ind, template);
+	}
+
 
 	solve() {
 		let counter = 0;
@@ -64,10 +70,15 @@ export default class Puzzle {
 				let cell = this.cells[i];
 				const { rowKey, colKey, r, c } = cell;
 				
-				const rowValues = this.lookupTable.findPossibleValues(rowKey, c, this.result.getRow(r));
-				const colValues = this.lookupTable.findPossibleValues(colKey, r, this.result.getCol(c));
+				const rowValues = this.lookupTable.findPossibleValues(rowKey, c, this.result.getRow(c));
+				const colValues = this.lookupTable.findPossibleValues(colKey, r, this.result.getCol(r));
+
 				cell.calc(rowValues);
 				cell.calc(colValues);
+				
+
+				//cell.calc( this.getNextCellValues(rowKey, c, 'r') );
+				//cell.calc( this.getNextCellValues(colKey, r, 'c') );
 
 				if (cell.result) {
 					this.result.setValue(r, c, cell.result);
@@ -86,7 +97,7 @@ export default class Puzzle {
 					}
 				}
 			}
-			if (counter >= 1000) {
+			if (counter >= 100) {
 				console.log('COUNTER!');
 				return;
 			}
