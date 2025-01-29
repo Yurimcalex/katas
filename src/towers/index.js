@@ -13,7 +13,7 @@ class Puzzle {
 
 	init(size, clues) {
 		let r = 0, c = 0;
-		for (let i = 0; i < clues.length; i += 1) {
+		for (let i = 0; i < size * size; i += 1) {
 			const cell = new PuzzleCell(
 				clues[size * 4 - r - 1],
 				clues[size + r],
@@ -140,3 +140,4 @@ puzzle.result.table.forEach(line => console.log(line));
 // puzzle.solve();
 // puzzle.result.table.forEach(line => console.log(line));
 // console.log(puzzle);
+// puzzle.cells.forEach(c => console.log(c.name, c.rowKey, c.colKey));
