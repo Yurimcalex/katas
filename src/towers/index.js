@@ -2,10 +2,10 @@ import Puzzle from './puzzle.js';
 
 
 console.time('start');
-test_size4_number1_times1();
+//test_size4_number1_times1();
 //test_size4_number1_times1000();
 //test_size4_number11_times1();
-//test_size4_number1_times1_multiple()
+test_size4_number1_times1_multiple();
 console.timeEnd('start');
 
 
@@ -57,7 +57,19 @@ function test_size4_number1_times1_multiple() {
 	puzzle.result.table.forEach(line => console.log(line));
 	console.log(puzzle);
 	console.log(d.join(''));
+	displayData('puzzle cells', puzzle.cells.map(c => ({name: c.name, values: c.possibleValues})));
 }
+
+
+function displayData(description, data) {
+	document.body.innerHTML += `
+		<div>
+			<h3>${description}</h3>
+			${data.map(d => `<div>${JSON.stringify(d)}</div><br/>`).join('')}
+		</div>
+	`;
+}
+
 
 
 
