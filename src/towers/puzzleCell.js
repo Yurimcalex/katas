@@ -2,7 +2,7 @@ import { getRange } from './utils.js';
  
 export default class PuzzleCell {
 	constructor(rowLeftTops, rowRightTops, colLeftTops, colRightTops, rowIndex, colIndex, lineSize) {
-		this.name = `${rowIndex}${colIndex}`;
+		this.name = `${rowIndex + 1}${colIndex + 1}`;
 		this.r = rowIndex;
 		this.c = colIndex;
 		this.rowKey = `${rowLeftTops}${rowRightTops}`;
