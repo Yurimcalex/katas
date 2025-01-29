@@ -41,7 +41,7 @@ export default class Puzzle {
 		return this.cells.filter(c => c !== cell && cell[line] === c[line]); 
 	}
 
-	excludeCellPossibleValue(cell) {
+	excludePossibleValueFromAdjacentCells(cell) {
 		const adjacentCells = this.getAdjacentCells(cell);
 		for (let c of adjacentCells) {
 			c.excludeV(cell.result - 1);
@@ -53,6 +53,8 @@ export default class Puzzle {
 		const zeroInd = sumArraysValues(values).findIndex(v => v === 0);
 		return zeroInd !== -1 ? cell.possibleValues[zeroInd] : null;  
 	}
+
+	getNext
 
 	solve() {
 		let counter = 0;
@@ -70,7 +72,7 @@ export default class Puzzle {
 				if (cell.result) {
 					this.result.setValue(r, c, cell.result);
 					this.cells.splice(i, 1);
-					this.excludeCellPossibleValue(cell);
+					this.excludePossibleValueFromAdjacentCells(cell);
 
 				} else {
 					let value = this.calcCellValueFromLineCells(cell, 'r');
@@ -80,7 +82,7 @@ export default class Puzzle {
 						cell.result = value;
 						this.result.setValue(r, c, cell.result);
 						this.cells.splice(i, 1);
-						this.excludeCellPossibleValue(cell);
+						this.excludePossibleValueFromAdjacentCells(cell);
 					}
 				}
 			}
