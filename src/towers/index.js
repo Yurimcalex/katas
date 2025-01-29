@@ -1,6 +1,12 @@
 import Puzzle from './puzzle.js';
 
 
+console.time('start');
+//test_size4_number1_times1();
+test_size4_number1_times1000();
+console.timeEnd('start');
+
+
 function test_size4_number1_times1() {
 	const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
 	const puzzle = new Puzzle(4, clues);
@@ -8,9 +14,15 @@ function test_size4_number1_times1() {
 	puzzle.result.table.forEach(line => console.log(line));
 }
 
-console.time('start');
-test_size4_number1_times1();
-console.timeEnd('start');
+
+function test_size4_number1_times1000() {
+	for (let i = 0; i < 1000; i += 1) {
+		const clues = [0, 0, 1, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0];
+		const puzzle = new Puzzle(4, clues);
+		puzzle.solve();
+	}
+}
+
 
 
 
