@@ -4,7 +4,8 @@ import Puzzle from './puzzle.js';
 console.time('start');
 //test_size4_number1_times1();
 //test_size4_number1_times1000();
-test_size4_number11_times1();
+//test_size4_number11_times1();
+test_size4_number1_times1_multiple()
 console.timeEnd('start');
 
 
@@ -49,17 +50,16 @@ function test_size4_number11_times1() {
 }
 
 
+function test_size4_number1_times1_multiple() {
+	const d = [0,2,0,0,0,3,0,0,0,1,0,0,0,0,1,2];
+	const puzzle = new Puzzle(4, d);
+	puzzle.solve();
+	puzzle.result.table.forEach(line => console.log(line));
+	console.log(puzzle);
+	console.log(d.join(''));
+}
 
 
-
-
-
-// const d = [0,2,0,0,0,3,0,0,0,1,0,0,0,0,1,2];
-// const puzzle = new Puzzle(4, d);
-// puzzle.solve();
-// puzzle.result.table.forEach(line => console.log(line));
-// console.log(puzzle);
-// console.log(d.join(''))
 
 
 // const d = [0, 0, 0 , 2, 2, 0, 0, 0, 0, 6, 3, 0, 0, 4, 0, 0, 0, 0, 4, 4, 0, 3, 0, 0];
