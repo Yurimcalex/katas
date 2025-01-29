@@ -68,33 +68,36 @@ export default class Puzzle {
 		this.cells.splice(ind, 1);
 	}
 
+	iterate(cell, i) {
+		cell.calc( this.getNextCellValues(cell, 'r') );
+		cell.calc( this.getNextCellValues(cell, 'c') );
+
+		if (cell.result) {
+			this.resolveCell(cell, i);
+			this.excludePossibleValueFromAdjacentCells(cell);
+		} else {
+
+			let value = this.calcCellValueFromLineCells(cell, 'r');
+			if (!value) value = this.calcCellValueFromLineCells(cell, 'c');
+			if (value) {
+				cell.result = value;
+				this.resolveCell(cell, i);
+				this.excludePossibleValueFromAdjacentCells(cell);
+			}
+		}
+	}
+
 	solve() {
 		let counter = 0;
 		while (this.cells.length) {
 			counter++;
 
 			for (let i = 0; i < this.cells.length; i += 1) {
-				const cell = this.cells[i];
-				cell.calc( this.getNextCellValues(cell, 'r') );
-				cell.calc( this.getNextCellValues(cell, 'c') );
-
-				if (cell.result) {
-					this.resolveCell(cell, i);
-					this.excludePossibleValueFromAdjacentCells(cell);
-				} else {
-
-					let value = this.calcCellValueFromLineCells(cell, 'r');
-					if (!value) value = this.calcCellValueFromLineCells(cell, 'c');
-					if (value) {
-						cell.result = value;
-						this.resolveCell(cell, i);
-						this.excludePossibleValueFromAdjacentCells(cell);
-					}
-				}
+				this.iterate(this.cells[i], i);
 			}
-			
-			if (counter >= 100) {
-				console.log('COUNTER!');
+
+			if (counter >= 1000) {
+				console.log('INFINITE LOOP!');
 				return;
 			}
 		}
