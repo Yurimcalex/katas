@@ -56,11 +56,12 @@ export default class Puzzle {
 		return zeroInd !== -1 ? cell.possibleValues[zeroInd] : null;  
 	}
 
-	getNextCellValues(key, ind, line) {
-		const template = line === 'r' ? this.result.getRow(ind) : this.result.getCol(ind);
-		return this.lookupTable.findPossibleValues(key, ind, template);
+	getNextCellValues(cell, line) {
+		const { rowKey, colKey, r, c } = cell;
+		return line === 'r'
+			? this.lookupTable.findPossibleValues(rowKey, c, this.result.getRow(r))
+			: this.lookupTable.findPossibleValues(colKey, r, this.result.getCol(c))
 	}
-
 
 	solve() {
 		let counter = 0;
@@ -68,20 +69,12 @@ export default class Puzzle {
 			counter++;
 			for (let i = 0; i < this.cells.length; i += 1) {
 				let cell = this.cells[i];
-				const { rowKey, colKey, r, c } = cell;
-				
-				const rowValues = this.lookupTable.findPossibleValues(rowKey, c, this.result.getRow(c));
-				const colValues = this.lookupTable.findPossibleValues(colKey, r, this.result.getCol(r));
 
-				cell.calc(rowValues);
-				cell.calc(colValues);
-				
-
-				//cell.calc( this.getNextCellValues(rowKey, c, 'r') );
-				//cell.calc( this.getNextCellValues(colKey, r, 'c') );
+				cell.calc( this.getNextCellValues(cell, 'r') );
+				cell.calc( this.getNextCellValues(cell, 'c') );
 
 				if (cell.result) {
-					this.result.setValue(r, c, cell.result);
+					this.result.setValue(cell.r, cell.c, cell.result);    
 					this.cells.splice(i, 1);
 					this.excludePossibleValueFromAdjacentCells(cell);
 
@@ -91,7 +84,7 @@ export default class Puzzle {
 
 					if (value) {
 						cell.result = value;
-						this.result.setValue(r, c, cell.result);
+						this.result.setValue(cell.r, cell.c, cell.result);
 						this.cells.splice(i, 1);
 						this.excludePossibleValueFromAdjacentCells(cell);
 					}
