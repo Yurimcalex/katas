@@ -63,33 +63,36 @@ export default class Puzzle {
 			: this.lookupTable.findPossibleValues(colKey, r, this.result.getCol(c))
 	}
 
+	resolveCell(cell, ind) {
+		this.result.setValue(cell.r, cell.c, cell.result);    
+		this.cells.splice(ind, 1);
+	}
+
 	solve() {
 		let counter = 0;
 		while (this.cells.length) {
 			counter++;
-			for (let i = 0; i < this.cells.length; i += 1) {
-				let cell = this.cells[i];
 
+			for (let i = 0; i < this.cells.length; i += 1) {
+				const cell = this.cells[i];
 				cell.calc( this.getNextCellValues(cell, 'r') );
 				cell.calc( this.getNextCellValues(cell, 'c') );
 
 				if (cell.result) {
-					this.result.setValue(cell.r, cell.c, cell.result);    
-					this.cells.splice(i, 1);
+					this.resolveCell(cell, i);
 					this.excludePossibleValueFromAdjacentCells(cell);
-
 				} else {
+
 					let value = this.calcCellValueFromLineCells(cell, 'r');
 					if (!value) value = this.calcCellValueFromLineCells(cell, 'c');
-
 					if (value) {
 						cell.result = value;
-						this.result.setValue(cell.r, cell.c, cell.result);
-						this.cells.splice(i, 1);
+						this.resolveCell(cell, i);
 						this.excludePossibleValueFromAdjacentCells(cell);
 					}
 				}
 			}
+			
 			if (counter >= 100) {
 				console.log('COUNTER!');
 				return;
